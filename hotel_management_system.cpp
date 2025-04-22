@@ -9,6 +9,7 @@ using namespace std;
 #define MAX_EMPLOYEES 50
 #define MAX_NAME 50
 
+// Room class to store room-related data
 class Room {
 public:
     int roomNumber;
@@ -26,7 +27,7 @@ public:
         roomNumber = 0;
         isAvailable = 1;
         isBooked = 0;
-        otp = 0; // Set to 0 initially
+        otp = 0; // OTP initialized to 0
         daysBooked = 0;
         numberOfGuests = 0;
         strcpy(guestName, "");
@@ -36,6 +37,7 @@ public:
     }
 };
 
+// Employee class to store employee-related data
 class Employee {
 public:
     int id;
@@ -60,6 +62,7 @@ float totalIncome = 0;
 float checkedInIncome = 0;
 float canceledIncome = 0;
 
+// Initialize all rooms with default values
 void initializeRooms() {
     for (int i = 0; i < MAX_ROOMS; i++) {
         rooms[i].roomNumber = i + 1;
@@ -78,6 +81,7 @@ void initializeRooms() {
     }
 }
 
+// Login function for Admin or User
 int login(int panel) {
     char username[MAX_NAME], password[MAX_NAME];
     cout << (panel == 1 ? "\nAdmin Login\n" : "\nUser Login\n");
@@ -93,6 +97,7 @@ int login(int panel) {
     }
 }
 
+// View details of all rooms
 void viewRoomDetails() {
     for (int i = 0; i < MAX_ROOMS; i++) {
         cout << "Room Number: " << rooms[i].roomNumber << ", Type: " << rooms[i].type << ", Rate: $" << rooms[i].ratePerDay
@@ -100,6 +105,7 @@ void viewRoomDetails() {
     }
 }
 
+// Book a room by providing details
 void bookRoom() {
     int roomNumber, days, numberOfGuests;
     char guestName[MAX_NAME], startDate[MAX_NAME];
@@ -111,14 +117,10 @@ void bookRoom() {
         cout << "Invalid room number or room already booked.\n";
         return;
     }
-    cout << "Enter Guest Name: ";
-    cin >> guestName;
-    cout << "Enter Number of Days: ";
-    cin >> days;
-    cout << "Enter Start Date: ";
-    cin >> startDate;
-    cout << "Enter Number of Guests: ";
-    cin >> numberOfGuests;
+    cout << "Enter Guest Name: "; cin >> guestName;
+    cout << "Enter Number of Days: "; cin >> days;
+    cout << "Enter Start Date: "; cin >> startDate;
+    cout << "Enter Number of Guests: "; cin >> numberOfGuests;
     rooms[roomNumber - 1].isBooked = 1;
     strcpy(rooms[roomNumber - 1].guestName, guestName);
     rooms[roomNumber - 1].daysBooked = days;
@@ -128,6 +130,7 @@ void bookRoom() {
          << "! Total Bill: $" << rooms[roomNumber - 1].ratePerDay * days << endl;
 }
 
+// Confirm a booking and generate OTP
 void confirmBooking() {
     int roomNumber;
     cout << "\nEnter Room Number to Confirm: ";
@@ -137,10 +140,11 @@ void confirmBooking() {
         return;
     }
     rooms[roomNumber - 1].isAvailable = 0;
-    rooms[roomNumber - 1].otp = rand() % 9000 + 1000; // Generate random OTP
+    rooms[roomNumber - 1].otp = rand() % 9000 + 1000; // Random 4-digit OTP
     cout << "\nBooking confirmed! OTP for check-in: " << rooms[roomNumber - 1].otp << endl;
 }
 
+// Check in to a confirmed booking using OTP
 void checkIn() {
     int roomNumber, enteredOtp;
     cout << "\nEnter Room Number for Check-In: ";
@@ -160,6 +164,7 @@ void checkIn() {
     }
 }
 
+// Check out and calculate the bill with possible discount
 void checkOut() {
     int roomNumber;
     cout << "\nEnter Room Number for Check-Out: ";
@@ -172,7 +177,7 @@ void checkOut() {
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     if (tm.tm_mon == 11 || tm.tm_mday == 25) {
-        bill *= 0.9;
+        bill *= 0.9; // 10% discount in December or on 25th
     }
     checkedInIncome += bill;
     totalIncome += bill;
@@ -185,6 +190,7 @@ void checkOut() {
     cout << "Checked out successfully!\n";
 }
 
+// Cancel a room booking and calculate refund
 void cancelBooking() {
     int roomNumber;
     cout << "\nEnter Room Number to Cancel Booking: ";
@@ -204,6 +210,7 @@ void cancelBooking() {
     rooms[roomNumber - 1].daysBooked = 0;
 }
 
+// Add an employee to the system
 void addEmployee() {
     if (employeeCount >= MAX_EMPLOYEES) {
         cout << "\nEmployee limit reached!\n";
@@ -221,6 +228,7 @@ void addEmployee() {
     cout << "\nEmployee added successfully!\n";
 }
 
+// Show income report
 void showIncome() {
     cout << "\nIncome Report:\n";
     cout << "1. Checked-in Income: $" << checkedInIncome << endl;
@@ -228,6 +236,7 @@ void showIncome() {
     cout << "3. Total Income: $" << totalIncome << endl;
 }
 
+// List all employees
 void listEmployees() {
     cout << "\nEmployee List:\n";
     for (int i = 0; i < employeeCount; i++) {
