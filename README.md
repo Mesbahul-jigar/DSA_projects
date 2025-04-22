@@ -37,5 +37,5 @@ This is a **console-based hotel management system** developed in **C++** for man
    - **User**: Any credentials (no restriction)
 
 ## 🧑‍💻 Author
-- Mohammd Mesbahul Alam, ETE, CUET
+- Mohammad Mesbahul Alam, ETE, CUET
 - Sun Sultana, CSE, CIU
